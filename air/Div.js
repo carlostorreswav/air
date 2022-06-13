@@ -1,5 +1,4 @@
 import styled, { css } from "styled-components"
-import PropTypes from "prop-types"
 
 const MarginDim = {
   xxs: "2px",
@@ -118,15 +117,6 @@ const StyledDiv = styled.div`
   ${p => getStyles(p)}
 `
 
-const Div = ({ children, ...props }) => (
+export const Div = ({ children, ...props }) => (
   <StyledDiv {...props}>{children}</StyledDiv>
 )
-
-Div.propTypes = {
-  /**
-   * Basic Div
-   */
-  props: PropTypes.string.isOptional,
-}
-
-export default Div

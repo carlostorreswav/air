@@ -101,7 +101,7 @@ const MainDic = {
   color: e => `color: ${e}`,
   fitContent: () => `width: fit-content`,
   mw: e => MarginPadding(["max-width"], e),
-  hover: e => getHover(e, MainDic),
+  hover: e => getHover(e),
   transition: e => `transition: ${e}`,
   xxs: e => getMediaQuery(e, "xxs"),
   xs: e => getMediaQuery(e, "xs"),
@@ -178,6 +178,7 @@ const TextDic = {
   color: e => `color: ${e}`,
   size: e => getTextSize(e),
   hover: e => getTextHover(e),
+  transition: e => `transition: ${e}`,
 }
 
 const getTextStyles = p => {
@@ -196,27 +197,8 @@ export const StyledText = styled.p`
   ${getTextStyles}
 `
 
-// color: ${p => p.color || "inherit"};
-// font-size: ${p =>
-//   TitleVariants[p.size]?.fontSize || TitleVariants["m"]?.fontSize};
-// width: ${p => !p.noFit && "fit-content"};
-// letter-spacing: ${p =>
-//   TitleVariants[p.size]?.letterSpacing || TitleVariants["m"]?.letterSpacing};
-// text-align: ${p => p.textAlign || "center"};
-// margin: ${p => (p.m ? p.m : "0px auto")};
-// padding: ${p => (p.p ? p.p : "0px")};
-// font-weight: ${p => (p.noBold ? "normal" : "bold")};
-// min-width: ${p => (p.minWidth ? p.minWidth : "auto")};
-// @media (max-width: 768px) {
-//   font-size: ${p => TitleVariants[TitleVariants[p.size]?.prev]?.fontSize};
-//   letter-spacing: ${p =>
-//     TitleVariants[TitleVariants[p.size]?.prev]?.letterSpacing};
-// }
-// @media (max-width: 320px) {
-//   font-size: ${p => TitleVariants[TitleVariants[p.size]?.prevX2]?.fontSize};
-//   letter-spacing: ${p =>
-//     TitleVariants[TitleVariants[p.size]?.prevX2]?.letterSpacing};
-// }
+export const StyledAnchor = styled.a``
+
 const Div = ({ children, ...props }) => (
   <StyledDiv {...props}>{children}</StyledDiv>
 )
@@ -229,4 +211,10 @@ const Text = ({ children, ...props }) => (
   <StyledText {...props}>{children}</StyledText>
 )
 
-export { Div, Button, Text }
+const Link = ({ children, ...props }) => (
+  <StyledAnchor href={props.href} target="_blank" rel="noreferrer">
+    <Text {...props}>{children}</Text>
+  </StyledAnchor>
+)
+
+export { Div, Button, Text, Link }

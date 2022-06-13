@@ -13,17 +13,5 @@
         "origin": "AUTHORED",
         "exported": true
     },
-    "carlostorreswav.air/index@0.0.1": {
-        "files": [
-            {
-                "relativePath": "air/index.js",
-                "test": false,
-                "name": "index.js"
-            }
-        ],
-        "mainFile": "air/index.js",
-        "origin": "AUTHORED",
-        "exported": true
-    },
     "version": "14.8.8"
 }

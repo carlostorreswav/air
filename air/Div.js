@@ -25,7 +25,6 @@ const getFlex = () => css`
 `
 
 const getStyles = p => {
-  console.log("getStyles", p)
   let Styles = []
   Object.entries(p).forEach(([rKey, rValue]) => {
     if (MainDic[rKey]) {

@@ -10,11 +10,20 @@
   },
   "dependencies": {
     "next": "12.1.6",
+    "prop-types": "^15.8.1",
     "react": "18.1.0",
-    "react-dom": "18.1.0"
+    "react-dom": "18.1.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6"
+  },
+  "bit": {
+    "env": {
+      "compiler": "bit.envs/compilers/react@2.0.0"
+    },
+    "componentsDefaultDirectory": "air/{name}",
+    "packageManager": "npm"
   }
 }

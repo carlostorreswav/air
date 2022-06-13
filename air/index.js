@@ -53,13 +53,13 @@ const getHover = e => {
 }
 
 const MediaDic = {
-  xxs: "@media (min-width: 200px)",
-  xs: "@media (min-width: 400px)",
-  s: "@media (min-width: 600px)",
-  m: "@media (min-width: 800px)",
-  l: "@media (min-width: 1000px)",
-  xl: "@media (min-width: 1200px)",
-  xxl: "@media (min-width: 1400px)",
+  xxs: "@media (max-width: 250px)",
+  xs: "@media (max-width: 500px)",
+  s: "@media (max-width: 750px)",
+  m: "@media (max-width: 1000px)",
+  l: "@media (max-width: 1250px)",
+  xl: "@media (max-width: 1500px)",
+  xxl: "@media (max-width: 1750px)",
 }
 
 const getMediaQuery = (e, type) => {
@@ -101,7 +101,7 @@ const MainDic = {
   color: e => `color: ${e}`,
   fitContent: () => `width: fit-content`,
   mw: e => MarginPadding(["max-width"], e),
-  hover: e => getHover(e),
+  hover: e => getHover(e, MainDic),
   transition: e => `transition: ${e}`,
   xxs: e => getMediaQuery(e, "xxs"),
   xs: e => getMediaQuery(e, "xs"),
@@ -114,13 +114,119 @@ const MainDic = {
 }
 
 const StyledDiv = styled.div`
-  ${p => getStyles(p)}
+  transition: all 0.2s ease-in-out;
+  ${getStyles}
 `
 
+const StyledButton = styled.button`
+  transition: all 0.2s ease-in-out;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  ${getStyles}
+`
+
+const SizeDic = {
+  xxs: { fontSize: "1em", prev1: "xxs", prev2: "xxs" },
+  xs: { fontSize: "1.2em", prev1: "xxs", prev2: "xxs" },
+  s: { fontSize: "1.4em", prev1: "xs", prev2: "xxs" },
+  m: { fontSize: "1.6em", prev1: "s", prev2: "xs" },
+  l: { fontSize: "1.8em", prev1: "m", prev2: "s" },
+  xl: { fontSize: "2em", prev1: "l", prev2: "m" },
+  xxl: { fontSize: "2.4em", prev1: "xl", prev2: "l" },
+}
+
+const getTextSize = e => {
+  const value = SizeDic[e]
+  const prev1 = SizeDic[value.prev1]
+  const prev2 = SizeDic[value.prev2]
+  const result = `
+    font-size: ${value.fontSize};
+    ${MediaDic.l} {
+      font-size: ${prev1.fontSize};
+    }
+    ${MediaDic.s} {
+      font-size: ${prev2.fontSize};
+    }
+    `
+  return result
+}
+
+const getTextHover = e => {
+  const result = Object.entries(e)
+    .map(([rKey, rValue]) => {
+      if (TextDic[rKey]) {
+        return TextDic[rKey](rValue)
+      }
+    })
+    .join("; ")
+  const final = `
+    &:hover {
+      ${result}
+    }
+  `
+  return final
+}
+
+const TextDic = {
+  bold: () => `font-weight: bold`,
+  italic: () => `font-style: italic`,
+  underline: () => `text-decoration: underline`,
+  uppercase: () => `text-transform: uppercase`,
+  lowercase: () => `text-transform: lowercase`,
+  capitalize: () => `text-transform: capitalize`,
+  color: e => `color: ${e}`,
+  size: e => getTextSize(e),
+  hover: e => getTextHover(e),
+}
+
+const getTextStyles = p => {
+  let TextStyles = []
+  Object.entries(p).forEach(([rKey, rValue]) => {
+    if (TextDic[rKey]) {
+      TextStyles.push(TextDic[rKey](rValue))
+    }
+  })
+  const result = TextStyles.join("; ")
+  console.log("result TextStyles ", result)
+  return result
+}
+
+export const StyledText = styled.p`
+  ${getTextStyles}
+`
+
+// color: ${p => p.color || "inherit"};
+// font-size: ${p =>
+//   TitleVariants[p.size]?.fontSize || TitleVariants["m"]?.fontSize};
+// width: ${p => !p.noFit && "fit-content"};
+// letter-spacing: ${p =>
+//   TitleVariants[p.size]?.letterSpacing || TitleVariants["m"]?.letterSpacing};
+// text-align: ${p => p.textAlign || "center"};
+// margin: ${p => (p.m ? p.m : "0px auto")};
+// padding: ${p => (p.p ? p.p : "0px")};
+// font-weight: ${p => (p.noBold ? "normal" : "bold")};
+// min-width: ${p => (p.minWidth ? p.minWidth : "auto")};
+// @media (max-width: 768px) {
+//   font-size: ${p => TitleVariants[TitleVariants[p.size]?.prev]?.fontSize};
+//   letter-spacing: ${p =>
+//     TitleVariants[TitleVariants[p.size]?.prev]?.letterSpacing};
+// }
+// @media (max-width: 320px) {
+//   font-size: ${p => TitleVariants[TitleVariants[p.size]?.prevX2]?.fontSize};
+//   letter-spacing: ${p =>
+//     TitleVariants[TitleVariants[p.size]?.prevX2]?.letterSpacing};
+// }
 const Div = ({ children, ...props }) => (
   <StyledDiv {...props}>{children}</StyledDiv>
 )
 
-export default {
-  Div,
-}
+const Button = ({ children, ...props }) => (
+  <StyledButton {...props}>{children}</StyledButton>
+)
+
+const Text = ({ children, ...props }) => (
+  <StyledText {...props}>{children}</StyledText>
+)
+
+export { Div, Button, Text }
